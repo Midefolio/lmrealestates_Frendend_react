@@ -12,6 +12,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { AiOutlineLoading } from "react-icons/ai";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'
+import LocationSelect from '../../components/select_location';
 
 const ViewProperties = ({setViewPpt, i, getProperties}) => {
  const {currentUser, token} = useContext(AuthContext)
@@ -25,35 +26,40 @@ const ViewProperties = ({setViewPpt, i, getProperties}) => {
  const [isSubmitting, setIsSubmitting] = useState(false);
  const editorRef = useRef(null);
  const abortController = useRef(new AbortController)
-
+ const [value, setValue] = useState('');
  const [propData, setPropData] = useState({
   user_id:currentUser?._id,
   name:"",
   title:"",
   category:[],
   location:{
-    LGA:"",
+    state:"",
+    city:"",
+    area:"",
     detailed_address:""
   },
-  description:i?.description,
+  description:value,
   features:[],
   youtube_link:"",
-  images:[],
+  images:"",
   price:{
     first_year:"",
     subsequent:"",
     isNegotiable:false
   },
   rank:1,
-  isvailable:true,
+  isvailable:"",
   status:"pending",  //pending, active, declined
   contact_details:{
     in_charge:"",
     name:"",
     whatsapp:""
-  }
+  },
+  reactions:0,
+  account_number:"",
+  account_name:"",
+  bank_name:"",
 })
-
 const handleImageChange = async(event) => {
   const file = event.target.files[0];
   let url;
@@ -267,9 +273,10 @@ return ( <>
         <div><span className=" xs-px13">Select Categories <span className="red">*</span></span></div>
         <div className="my-col-10"><MultiSelect value={propData?.category} handleSelectChange={handleSelectChangecat} className="px13" data={Category} /></div>
       </div>
-      <div className="my-mother xs-down-3  down-3">
-        <div><span className=" px1 xs-px13">Select LGA <span className="red">*</span></span></div>
+      <div className="my-mother xs-down-3  down-2">
+        <div><span className=" px1 xs-px13 faded">State <span className="red">*</span></span></div>
         <div className="my-col-10">
+          <LocationSelect setPropData={setPropData} propData={propData} />
           {/* <SingleSelect data={LGAS} propData={propData} setPropData={setPropData} /> */}
         </div>
       </div>
@@ -397,6 +404,46 @@ return ( <>
            className="px13 input-1" 
            value={propData?.contact_details.whatsapp} onChange={(e)=> {setPropData(prev => ({...prev, contact_details:{...prev.contact_details, whatsapp:e.target.value}}))}}
           />
+        </div>
+      </div>
+
+      
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13">Account Number</div> 
+          <div className="my-mother down-1 ">Please enter correct account Number for this property.  <p>Lmobile will not be liable for any loss due to incorrect bank details</p> </div></div>}>
+            <input 
+            type="tel" 
+            className="px13 input-1 bg-white"
+            value={propData?.account_number} onChange={(e)=> {setPropData(prev => ({...prev, account_number:e.target.value}))}}
+            />
+          </Tippy>  
+        </div>
+      </div>
+      
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13">Account Name</div> 
+          <div className="my-mother down-1 ">Please enter correct account Name e.g "Lmobile LTD or Wale Ojo" </div></div>}>
+            <input 
+            type="text" 
+            className="px13 input-1 bg-white"
+            value={propData?.account_name} onChange={(e)=> {setPropData(prev => ({...prev, account_name:e.target.value}))}}
+            />
+          </Tippy>  
+        </div>
+      </div>
+
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13"> Bank Name</div> 
+          <div className="my-mother down-1 ">Please enter correct bank Name for this property e.g "Diamond Bank" </div></div>}>
+            <input 
+            type="text" 
+            className="px13 input-1 bg-white"
+            value={propData?.bank_name} onChange={(e)=> {setPropData(prev => ({...prev,  bank_name:e.target.value}))}}
+            />
+          </Tippy>  
         </div>
       </div>
     

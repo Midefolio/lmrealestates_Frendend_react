@@ -10,7 +10,7 @@ const MulSelect = ({data, handleSelectChange}) => {
       borderColor: state.isHovered ? 'green' : 'white', // Set the hover color
       backgroundColor: '#f3f3f3;', // set the background color to gray
       borderColor: 'transparent',
-      height:'40px'
+      // height:'40px'
     }),
   };
   

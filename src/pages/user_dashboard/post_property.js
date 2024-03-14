@@ -18,12 +18,9 @@ const Post = () => {
   const token = JSON.parse(localStorage.getItem('LR_jwt'));
   const history = useHistory();
   useEffect(() => {
-    document.body.style.backgroundColor = '#f0f0f0';
-    // document.body.style.color = 'white'; // Adjust text color for better visibility
-
+    document.body.style.backgroundColor = '#F7F9FD';
     return () => {
       document.body.style.backgroundColor = '';
-      // document.body.style.color = '';
     };
   }, []); 
 
@@ -57,19 +54,22 @@ const Post = () => {
       isNegotiable:false
     },
     rank:1,
-    isvailable:'available',
+    isvailable:"",
     status:"pending",  //pending, active, declined
     contact_details:{
       in_charge:"",
       name:"",
       whatsapp:""
     },
-    reactions:0
+    reactions:0,
+    account_number:"",
+    account_name:"",
+    bank_name:"",
   })
   
-  useEffect(() => {
-    console.log(propData)
-  }, [propData])
+  // useEffect(() => {
+  //   console.log(propData)
+  // }, [propData])
   
 
  const handleImageChange = async(event) => {
@@ -389,6 +389,47 @@ return ( <div >
           />
         </div>
       </div>
+
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13">Account Number</div> 
+          <div className="my-mother down-1 ">Please enter correct account Number for this property.  <p>Lmobile will not be liable for any loss due to incorrect bank details</p> </div></div>}>
+            <input 
+            type="tel" 
+            className="px13 input-1 bg-white"
+            value={propData?.account_number} onChange={(e)=> {setPropData(prev => ({...prev, account_number:e.target.value}))}}
+            />
+          </Tippy>  
+        </div>
+      </div>
+      
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13">Account Name</div> 
+          <div className="my-mother down-1 ">Please enter correct account Name e.g "Lmobile LTD or Wale Ojo" </div></div>}>
+            <input 
+            type="text" 
+            className="px13 input-1 bg-white"
+            value={propData?.account_name} onChange={(e)=> {setPropData(prev => ({...prev, account_name:e.target.value}))}}
+            />
+          </Tippy>  
+        </div>
+      </div>
+
+      <div className="my-mother down-2 xs-down-5">
+        <div className="my-col-10">
+          <Tippy content={<div className="px13 my-mother bg-white my-b-shadow pd-10"><div className="my-mother px13"> Bank Name</div> 
+          <div className="my-mother down-1 ">Please enter correct bank Name for this property e.g "Diamond Bank" </div></div>}>
+            <input 
+            type="text" 
+            className="px13 input-1 bg-white"
+            value={propData?.bank_name} onChange={(e)=> {setPropData(prev => ({...prev,  bank_name:e.target.value}))}}
+            />
+          </Tippy>  
+        </div>
+      </div>
+
+
     
     {!isSubmitting?
       <div className="my-mother down-4 xs-centered  xs-down-10">

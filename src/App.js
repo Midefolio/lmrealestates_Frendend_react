@@ -14,6 +14,8 @@ import UserSettings from "./pages/user_dashboard/user_settings";
 import UserContextProvider from "./context/userContext";
 import AllProperties from "./pages/user_dashboard/all_properties";
 import PropertyDetails from "./pages/user_dashboard/see_property-details";
+import UserBookings from "./pages/user_dashboard/user_bookings";
+import SeePropertyDetails from "./pages/property_full_details";
 const App = () => {
 return (
  <>
@@ -31,12 +33,12 @@ return (
  <Router>
    <Switch>
 
-      <UserContextProvider>
-       <UtilsContextProvider>
-        <Route path="/">
-          <Route path="/" exact  component={Home} />
+   <UserContextProvider>
+      <UtilsContextProvider>
+   <Route path="/">
+   <Route path="/" exact  component={Propeties} />
+   <Route path="/details/:id"  component={SeePropertyDetails} />
           <Route path="/signup"  component={SignUpToSell} />
-          <Route path="/properties/:category"  component={Propeties} />
           <Route path="/verifyemail/:token"  component={VerifyEmail} />
 
           <AuthContextProvider>
@@ -45,12 +47,13 @@ return (
             <Route path="/dashboard/post"  component={Post} /> 
             <Route path="/dashboard/properties/:status" component={UserProperties} /> 
             <Route path="/dashboard/settings" component={UserSettings} /> 
-            <Route path="/dashboard/properties" component={AllProperties} /> 
+            <Route path="/dashboard/all_properties" component={AllProperties} /> 
             <Route path="/dashboard/property/:id" component={PropertyDetails} /> 
+            <Route path="/dashboard/bookings" component={UserBookings} /> 
           </AuthContextProvider>
           
-      </Route>
-      </UtilsContextProvider>
+          </Route>
+        </UtilsContextProvider>
       </UserContextProvider>
    </Switch>
  </Router> 

@@ -9,18 +9,18 @@ const UserContextProvider = (props) => {
  const [Category, setCategory] = useState([]);
  const [features, setFeatures] = useState([]);
  const [properties, setProperties] = useState(null);
+ const [fiterIsOn, setFilterIsOn] = useState(false);
+ const [filterParams, setFilterParams] = useState(null)
 
    
  return ( 
   <UserContext.Provider value={{
-    setCurrentUsers,
-    currentUser,
-    features, 
-    setFeatures,
-    Category, 
-    setCategory,
-    properties,
-    setProperties
+    currentUser, setCurrentUsers,
+    features, setFeatures,
+    Category,setCategory,
+    properties,setProperties,
+    fiterIsOn,setFilterIsOn,
+    filterParams,setFilterParams,
 
   }}>
 

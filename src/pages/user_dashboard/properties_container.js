@@ -19,8 +19,15 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
    const likeRef = useRef();
    const unlikeRef =useRef();
 
+   const getiIsLiked =()=> {
+      const email = i.likes?.find(l => l.email == currentUser?.email)
+      if(email?.email === currentUser?.email){
+         setIsLiked(true)
+      }
+   }
 
 
+   // initialize pusher
    useEffect(() => {
       const pusher = new Pusher( process.env.REACT_APP_PUSHER_KEY, {
         cluster: process.env.REACT_APP_PUSHER_CLUSTER,
@@ -28,22 +35,14 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
       });
       const channel = pusher.subscribe('likes');
       channel.bind('update', (data) => {
-         getAllActiveProp();
+        getAllActiveProp();
+        getiIsLiked();
       });
-
       return () => {
         channel.unbind();
         pusher.unsubscribe('likes');
       };
     }, []);
-
-   const getiIsLiked =()=> {
-      console.log('likes chamges')
-      const email = i.likes?.find(l => l.email == currentUser?.email)
-      if(email?.email === currentUser?.email){
-         setIsLiked(true)
-      }
-   }
 
    useEffect(() => {
       getiIsLiked();
@@ -60,7 +59,7 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
         if(updateLikeArr) {
            const result = await makeRequest('post', 'users/like_prop', {_id:i?._id, email:currentUser?.email, action:"liked", likesArr:i.likes}, null, token?.jwt)
            if(result?.message === 'done'){
-              setToast('Liked !')
+            //   setToast('Liked !')
            }
          }
        }
@@ -74,7 +73,7 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
          i.likes = ar
          const result = await makeRequest('post', 'users/like_prop', {_id:i?._id, email:currentUser?.email, likesArr:i.likes, action:'unliked'}, null, token?.jwt)
          if(result?.message === 'done'){
-            setToast('UnLiked !')
+            // setToast('UnLiked !')
          }
       }
    }
@@ -83,7 +82,7 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
 
     return ( <>
      <div className="xs-12 my-col-3"  onClick={()=> {history.push(`/dashboard/property/${i?._id}`)}}>
-        <div className="xs-12 my-b-shadow rad-10 my-bottom">
+        <div className="xs-12 bg-white rad-10 my-bottom">
             <div className="xs-4"><div className="property-img-con"><img src={path + i?.images[0]} alt="" /></div></div>
             <div className="xs-8 down-">
                <div className="my-container">
@@ -91,11 +90,11 @@ const PropertyContainer = ({i, getAllActiveProp}) => {
                  <i className="fas fa-circle px1 mg-5"></i>
                  <span className="green mg-5">{i?.isvailable}</span>
                  </div>
-                    <div className="my-mother xs-down-2"><span className="bold xs-px13" >{i?.title}</span></div>
-                    <div className="my-mother xs-down-1"><span className="color-code-1 xs-px13">NGN {formatNumber(i?.price.first_year)}</span></div>
-                    <div className="my-mother down-3 xs-down-"><span className="px9 faded upper-case" ><i className="fas fa-map-marker-alt faded"></i> <span className="mg-5">{i?.location.state}.{i.location.city}.{i.location.area}</span></span></div>
-                  <div className="my-mother">
-                     <span className={`px20 rad-10 ${isLiked && "color-code-1 "}` } onClick={(e)=> { isLiked ? UnlikePpt() :  likePpt(); e.stopPropagation()}}><AiFillLike/> <span className="px13"> <span ref={likeRef}></span> likes</span> </span> 
+                    <div className="my-mother xs-down-"><span className="bold xs-px13" >{i?.title}</span></div>
+                    <div className="my-mother"><span className="color-code-1 xs-px13 bold">₦{formatNumber(i?.price.first_year)}</span></div>
+                    <div className="my-mother down-3 xs-down-"><span className="px9 rad-10 fded upper-case pd-5 bg-color-code-2 color-code-1" ><i className="fas fa-map-marker-alt"></i> <span className="mg-5">{i?.location.state}. {i.location.city}. {i.location.area}</span></span></div>
+                  <div className="my-mother rigt xs-down-2">
+                     <span className={`px20 xs-px13 rad-10 ${isLiked && "color-code-1 "}` } onClick={(e)=> { isLiked ? UnlikePpt() :  likePpt(); e.stopPropagation()}}>  {isLiked ? <AiFillLike/> : <AiOutlineLike/>}   <span className="px13 xs-down-2 xs-1"> <span ref={likeRef}></span></span> </span> 
                   </div>
                </div>
             </div>

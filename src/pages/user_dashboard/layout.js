@@ -1,4 +1,4 @@
-import {AiOutlineBell, AiOutlineHome, AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
+import {AiOutlineBell, AiOutlineCar, AiOutlineDashboard, AiOutlineHome, AiOutlinePlus, AiOutlineSetting } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Isloading from "../../components/isloading";
 import { useContext, useEffect } from "react";
@@ -23,10 +23,10 @@ const Layout = ({active}) => {
    {isloading && <Isloading error={error} getUser={getUser} token={token}  />}
     <div className="side-bar hidden-xs">
       <div className="my-col-10 off-1 dow-60">
-        <span className={`side-bar-icons ${active === 'home' && 'black fas fa-shake'} `}  onClick={()=> {history.push('/dashboard')}}><AiOutlineHome/></span>
-        <span className={`side-bar-icons ${active === 'post' && 'black fas fa-shake'} `} onClick={()=> {history.push('/dashboard/post')}}><AiOutlinePlus/></span>
-        <span className={`side-bar-icons ${active === 'settings' && 'black fas fa-spin'} `} onClick={()=> {history.push('/dashboard/settings')}}><AiOutlineSetting/></span>
-        <span className={`side-bar-icons ${active === 'notification' && 'black'} `}><AiOutlineBell/></span>
+        <span title="Home" className={`side-bar-icons ${active === 'home' && 'black fas fa-shake'} `}  onClick={()=> {history.push('/dashboard')}}><AiOutlineHome/></span>
+        <span title="Post Property" className={`side-bar-icons ${active === 'post' && 'black fas fa-shake'} `} onClick={()=> {history.push('/dashboard/post')}}><AiOutlinePlus/></span>
+        <span title="Settings" className={`side-bar-icons ${active === 'settings' && 'black fas fa-spin'} `} onClick={()=> {history.push('/dashboard/settings')}}><AiOutlineSetting/></span>
+        <span title="Bookings" className={`side-bar-icons ${active === 'bookings' && 'black'} `} onClick={()=>{history.push('/dashboard/bookings')}}><AiOutlineCar/></span>
       </div>
     </div>
 
@@ -46,10 +46,18 @@ const Layout = ({active}) => {
 
   <div className="mobile-bottom-nav bg-white hidden-ls">
     <div className="xs-container">
-      <div className={`xs-3 px30  centered ${active === 'home' ? 'color-code-1' : 'faded'}`}  onClick={()=>{history.push('/dashboard')}}><AiOutlineHome/></div>
-      <div className={`xs-3 px30  centered ${active === 'post' ? 'color-code-1' : 'faded'}`}  onClick={()=>{history.push('/dashboard/post')}}><AiOutlinePlus/></div>
-      <div className={`xs-3 px30  centered ${active === 'settings' ? 'color-code-1' : 'faded'}`}><AiOutlineSetting/></div>
-      <div className={`xs-3 px30  centered ${active === 'notification' ? 'color-code-1' : 'faded'}`}><AiOutlineBell/></div>
+      <div className={`xs-3 px30  centered ${active === 'home' ? 'color-code-1' : 'faded'}`}  onClick={()=>{history.push('/dashboard')}}><AiOutlineDashboard/>
+       <div className="my-mother xs-top-15"><span className="px10">Dashboard</span></div>
+      </div>
+      <div className={`xs-3 px30  centered ${active === 'post' ? 'color-code-1' : 'faded'}`}  onClick={()=>{history.push('/dashboard/all_properties')}}><AiOutlineHome/>
+       <div className="my-mother xs-top-15"><span className="px10">Properties</span></div>
+      </div>
+      <div className={`xs-3 px30  centered ${active === 'settings' ? 'color-code-1' : 'faded'}`}><AiOutlineSetting/>
+       <div className="my-mother xs-top-15"><span className="px10">Settings</span></div>
+      </div>
+      <div className={`xs-3 px30  centered ${active === 'bookings' ? 'color-code-1' : 'faded'}`} onClick={()=>{history.push('/dashboard/bookings')}}><AiOutlineCar/>
+       <div className="my-mother xs-top-15"><span className="px10">Bookings</span></div>
+      </div>
     </div>
   </div>
   </> );

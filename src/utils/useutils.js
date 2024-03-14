@@ -550,6 +550,79 @@ function preventSpaceInPassword(id) {
   });
 }
 
+function calculateInspectionFee(propertyFee) {
+  if (propertyFee >= 1 && propertyFee <= 100000) {
+      return 2000;
+  } else if (propertyFee > 100000 && propertyFee <= 250000) {
+      return 2500;
+  } else if (propertyFee > 250000 && propertyFee <= 500000) {
+      return 3000;
+  } else if (propertyFee > 500000 && propertyFee <= 1000000) {
+      return 3500;
+  } else if (propertyFee > 1000000 && propertyFee <= 5000000) {
+      return 5000;
+  } else if (propertyFee > 5000000 && propertyFee <= 10000000) {
+      return 10000;
+  } else if (propertyFee > 10000000 && propertyFee <= 100000000) {
+      return 15000;
+  } else if (propertyFee > 100000000 && propertyFee <= 1000000000) {
+      return 25000;
+  } else if (propertyFee > 1000000000 && propertyFee <= 10000000000) {
+      return 50000;
+  } else {
+      // You can handle other cases or return a default value here
+      return 0;
+  }
+}
+
+
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+const daysOfWeek = [
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+];
+
+function formatDateInWords(dateString) {
+    const dateParts = dateString.split('-');
+    const year = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1; // Adjust month to start from 0
+    const day = parseInt(dateParts[2], 10);
+
+    const formattedDay = getFormattedDay(day);
+    const formattedMonth = months[month];
+    const formattedDayOfWeek = getFormattedDayOfWeek(new Date(year, month, day).getDay());
+
+    return `${formattedDay}, ${formattedDayOfWeek}, ${formattedMonth}, ${year}`;
+}
+
+function getFormattedDay(day) {
+  const suffixes = ["th", "st", "nd", "rd"];
+  const suffix = (day >= 11 && day <= 13) || day % 10 > 3 ? suffixes[0] : suffixes[day % 10];
+  return day + suffix;
+}
+
+function getFormattedDayOfWeek(dayOfWeek) {
+  return daysOfWeek[dayOfWeek];
+}
+
+function hasDatePassed(dateString) {
+  // Parse the input date string
+  const dateParts = dateString.split('-');
+  const year = parseInt(dateParts[0], 10);
+  const month = parseInt(dateParts[1], 10) - 1; // Adjust month to start from 0
+  const day = parseInt(dateParts[2], 10);
+
+  // Create Date objects for the input date and the current date
+  const inputDate = new Date(year, month, day);
+  const currentDate = new Date();
+
+  // Compare the input date with the current date
+  return inputDate < currentDate;
+}
+
  return {
   closeModal,
   openModal,
@@ -583,7 +656,9 @@ function preventSpaceInPassword(id) {
   LGAS,
   isStrongPassword,
   preventSpaceInPassword,
-
+  calculateInspectionFee,
+  formatDateInWords,
+  hasDatePassed
 
  };
 }

@@ -10,6 +10,15 @@ import ViewProperties from "./view_single_ppt";
 import { UserContext } from "../../context/userContext";
 
 const UserProperties = () => {
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#F7F9FD';
+    return () => {
+      document.body.style.backgroundColor = '';
+    };
+  }, []);
+
+
  const { status } = useParams();
  const [properties, setProperties] = useState(null);
  const {token, path} = useContext(AuthContext); 
@@ -42,9 +51,8 @@ const UserProperties = () => {
     if(currentUser){
       getProperties();
     }
- }, [currentUser])
+ }, [currentUser, status])
   
-
   return ( <>
     <Layout active={'properties'}/>
     {properties?.map((i) => (
@@ -68,21 +76,40 @@ const UserProperties = () => {
         <div className="my-mother down-1 xs-down-5">
           {properties && <>
            {properties?.map((i, index) =>(
-              <div className="my-col-3 xs-12 xs-down-2 down-4" key={i._id}>
-                <div className="my-container my-bottom-10 my-b-shadow bg-white" onClick={() => {setViewPpt(i.status !== 'pending' && i._id)}}>
-                 <div className="my-col-12 xs-container">
-                  <div className="my-col-10 xs-4 xs-down-3 off-1 down-5"><div className="ppt-img-container"><img  src={path + i.images[0]} alt="" loading="lazy"  /></div></div>
-                    <div className="my-col-10 xs-8 off-1 down-5">
-                     <div className="my-col-12 xs-container xs-down-10">
-                      <div><span className="black bold px13"> ₦ {formatNumber(i.price.first_year)}</span></div>
-                        <div><span className="faded">{i.title.slice(0, 10) + '...'}</span></div>
-                        <div className="my-mother down-3 xs-down-3"><span className="pd-5 bg-color-code-2 color-code-1 px10">Reviewing</span></div>
-                        <div className="my-mother down-5 xs-down-2 right faded px10">{formatTransactionTime(i.createdAt, new Date)}</div>
-                     </div>
-                    </div>
-                 </div>
+
+          <div className="xs-12 my-col-3  xs-down-2"  onClick={() => {setViewPpt(i.status !== 'pending' && i._id)}}>
+          <div className="xs-12 my-b-shaow bg-white  rad-10 my-bottom">
+              <div className="xs-4"><div className="property-img-con h-10"><img src={path + i?.images[0]} alt="" /></div></div>
+              <div className="xs-8 down-">
+                <div className="my-container">
+                  <div className="faded px10 xs-down-3 xs-12">{i?.name}
+                  <i className="fas fa-circle px1 mg-5"></i>
+                  <span className="green mg-5">{i?.status}</span>
+                  </div>
+                      <div className="my-mother xs-down-"><span className="bold xs-px13" >{i?.title}</span></div>
+                      <div className="my-mother"><span className="color-code-1 xs-px13 bold">₦{formatNumber(i?.price.first_year)}</span></div>
+                      <div className="my-mother down-3 xs-down-"><span className="px9 rad-10 fded upper-case pd-5 bg-color-code-2 color-code-1" ><i className="fas fa-map-marker-alt"></i> <span className="mg-5">{i?.location.state}. {i.location.city}. {i.location.area}</span></span></div>
                 </div>
               </div>
+          </div>
+          </div>
+
+
+              // <div className="my-col-3 xs-12 xs-down-2 down-4" key={i._id}>
+              //   <div className="my-container my-bottom-10 my-b-shadow bg-white" onClick={() => {setViewPpt(i.status !== 'pending' && i._id)}}>
+              //    <div className="my-col-12 xs-container">
+              //     <div className="my-col-10 xs-4 xs-down-3 off-1 down-5"><div className="property-img-con"><img  src={path + i.images[0]} alt="" loading="lazy"  /></div></div>
+              //       <div className="my-col-10 xs-8 off-1 down-5">
+              //        <div className="my-col-12 xs-container xs-down-5">
+              //         <div><span className="black bold px13"> ₦ {formatNumber(i.price.first_year)}</span></div>
+              //           <div><span className="faded">{i.title.slice(0, 10) + '...'}</span></div>
+              //           <div className="my-mother down-3 xs-down-3"><span className="pd-5 bg-color-code-2 color-code-1 px10">Reviewing</span></div>
+              //           <div className="my-mother down-5 xs-down-2 right faded px10">{formatTransactionTime(i.createdAt, new Date)}</div>
+              //        </div>
+              //       </div>
+              //    </div>
+              //   </div>
+              // </div>
            ))}
           </>}
 

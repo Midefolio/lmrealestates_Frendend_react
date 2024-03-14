@@ -13,7 +13,7 @@ const Login = () => {
   const {setToast, isSending, preventSpaceInPassword} = useUtils();
   const {makeRequest} = useApi();
   const { getUser} = useContext(AuthContext);
-  const {getCat, Category, selectedOptions, getFeatures, features, selectedFeatures} = useContext(UtilsContext);
+  // const {getCat, Category, selectedOptions, getFeatures, features, selectedFeatures} = useContext(UtilsContext);
   const [params, setParams] = useState({
   email:"",
   password:"",
@@ -69,7 +69,7 @@ const cb =() => {
         </div>
       <div className='my-col-12 xs-12 xs-down-5'>
         <div className='my-col-12 down-2'>
-        <input id='loginpas'  ref={password} placeholder='Password' className="input bg-white rad-10 px13" value={params?.password} onChange={(e)=> {setParams(prev => ({...prev, password:e.target.value})); preventSpaceInPassword('loginpas')}} />
+        <input id='loginpas' type='password'  ref={password} placeholder='Password' className="input bg-white rad-10 px13" value={params?.password} onChange={(e)=> {setParams(prev => ({...prev, password:e.target.value})); preventSpaceInPassword('loginpas')}} />
         </div>
       </div>
        <div className='my-mother down-2 xs-down-5'><button onClick={onSubmit} type="submit" className='anchors bg-color-code-1 white monR'>Login</button></div>
